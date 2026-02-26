@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Features - EventHub | College Event Participation & Certificate System</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Custom JS -->
+    <script src="js/main.js" defer></script>
+</head>
+<body class="bg-gray-900 text-white overflow-x-hidden font-inter">
+    
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 w-full z-50 backdrop-blur-lg bg-gray-900/80 border-b border-white/10 transition-all duration-300">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <div class="w-10 h-10 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-graduation-cap text-white"></i>
+                    </div>
+                    <span class="text-xl font-bold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">EventHub</span>
+                </div>
+                
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html" class="nav-link text-gray-300 hover:text-white transition-colors duration-300">Home</a>
+                    <a href="features.html" class="nav-link text-cyan-400 font-semibold">Features</a>
+                    <a href="register.html" class="nav-link text-gray-300 hover:text-white transition-colors duration-300">Register</a>
+                    <a href="dashboard.html" class="nav-link text-gray-300 hover:text-white transition-colors duration-300">Dashboard</a>
+                    <a href="certificates.html" class="nav-link text-gray-300 hover:text-white transition-colors duration-300">Certificates</a>
+                </div>
+                
+                <button id="mobile-menu-btn" class="md:hidden text-white">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-gray-900/95 backdrop-blur-lg border-t border-white/10">
+            <div class="px-6 py-4 space-y-3">
+                <a href="index.html" class="block text-gray-300 hover:text-white transition-colors duration-300">Home</a>
+                <a href="features.html" class="block text-cyan-400 font-semibold">Features</a>
+                <a href="register.html" class="block text-gray-300 hover:text-white transition-colors duration-300">Register</a>
+                <a href="dashboard.html" class="block text-gray-300 hover:text-white transition-colors duration-300">Dashboard</a>
+                <a href="certificates.html" class="block text-gray-300 hover:text-white transition-colors duration-300">Certificates</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="min-h-screen relative flex items-center justify-center">
+        <div class="absolute inset-0 bg-gradient-to-br from-purple-900 via-blue-900 to-cyan-900">
+            <div class="absolute inset-0 bg-black/50"></div>
+        </div>
+        
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+        
+        <canvas id="particles-canvas" class="absolute inset-0"></canvas>
+        
+        <div class="relative z-10 text-center px-6 max-w-4xl mx-auto">
+            <h1 class="text-5xl md:text-7xl font-black mb-6 bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-400 bg-clip-text text-transparent animate-gradient" data-aos="fade-up">
+                Powerful Features
+            </h1>
+            
+            <p class="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+                Discover the comprehensive tools that make EventHub the ultimate solution for college event management.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-6 justify-center" data-aos="fade-up" data-aos-delay="400">
+                <a href="register.html" class="bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-700 hover:to-cyan-700 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:shadow-cyan-500/25 ripple inline-block text-center">
+                    <i class="fas fa-rocket mr-2"></i> Get Started
+                </a>
+                <a href="dashboard.html" class="border-2 border-cyan-500 text-cyan-400 hover:bg-cyan-500 hover:text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 transform hover:scale-105 ripple inline-block text-center">
+                    <i class="fas fa-chart-line mr-2"></i> View Demo
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Features Section -->
+    <section class="py-20 relative">
+        <div class="absolute inset-0 bg-gradient-to-b from-gray-900 to-purple-900/20"></div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <h2 class="text-4xl md:text-5xl font-black text-center mb-16 bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent" data-aos="fade-up">
+                Core Capabilities
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Student Management -->
+                <div class="feature-card glass-card p-8 rounded-2xl border border-white/10 backdrop-blur-lg hover:border-cyan-500/50 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:shadow-cyan-500/20" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-xl flex items-center justify-center mb-6 feature-icon">
+                        <i class="fas fa-users text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-cyan-400">Student Management</h3>
+                    <p class="text-gray-300 mb-4">Efficiently manage student profiles, track participation history, and maintain comprehensive records.</p>
+                    <ul class="text-gray-400 space-y-2">
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Complete student profiles</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Participation tracking</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Academic records integration</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Bulk import/export</li>
+                    </ul>
+                </div>
+                
+                <!-- Event Creation -->
+                <div class="feature-card glass-card p-8 rounded-2xl border border-white/10 backdrop-blur-lg hover:border-purple-500/50 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/20" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-16 h-16 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-xl flex items-center justify-center mb-6 feature-icon">
+                        <i class="fas fa-calendar-alt text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-purple-400">Event Creation</h3>
+                    <p class="text-gray-300 mb-4">Create and manage events with ease, set up registration forms, and track participant engagement.</p>
+                    <ul class="text-gray-400 space-y-2">
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Custom event types</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Registration forms</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Capacity management</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Scheduling tools</li>
+                    </ul>
+                </div>
+                
+                <!-- Participation Tracking -->
+                <div class="feature-card glass-card p-8 rounded-2xl border border-white/10 backdrop-blur-lg hover:border-green-500/50 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:shadow-green-500/20" data-aos="fade-up" data-aos-delay="300">
+                    <div class="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl flex items-center justify-center mb-6 feature-icon">
+                        <i class="fas fa-chart-line text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-green-400">Participation Tracking</h3>
+                    <p class="text-gray-300 mb-4">Monitor student participation in real-time, generate reports, and analyze engagement patterns.</p>
+                    <ul class="text-gray-400 space-y-2">
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Real-time monitoring</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Attendance tracking</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Performance analytics</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Export reports</li>
+                    </ul>
+                </div>
+                
+                <!-- Certificate Generation -->
+                <div class="feature-card glass-card p-8 rounded-2xl border border-white/10 backdrop-blur-lg hover:border-yellow-500/50 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:shadow-yellow-500/20" data-aos="fade-up" data-aos-delay="400">
+                    <div class="w-16 h-16 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-xl flex items-center justify-center mb-6 feature-icon">
+                        <i class="fas fa-award text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-yellow-400">Certificate Generation</h3>
+                    <p class="text-gray-300 mb-4">Automatically generate professional certificates with customizable templates and instant delivery.</p>
+                    <ul class="text-gray-400 space-y-2">
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Custom templates</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Batch generation</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Digital signatures</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>QR code verification</li>
+                    </ul>
+                </div>
+                
+                <!-- Analytics Dashboard -->
+                <div class="feature-card glass-card p-8 rounded-2xl border border-white/10 backdrop-blur-lg hover:border-pink-500/50 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:shadow-pink-500/20" data-aos="fade-up" data-aos-delay="500">
+                    <div class="w-16 h-16 bg-gradient-to-r from-pink-500 to-rose-500 rounded-xl flex items-center justify-center mb-6 feature-icon">
+                        <i class="fas fa-chart-pie text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-pink-400">Analytics Dashboard</h3>
+                    <p class="text-gray-300 mb-4">Comprehensive analytics and insights to track event performance and student engagement metrics.</p>
+                    <ul class="text-gray-400 space-y-2">
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Real-time statistics</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Custom reports</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Data visualization</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Trend analysis</li>
+                    </ul>
+                </div>
+                
+                <!-- Smart Notifications -->
+                <div class="feature-card glass-card p-8 rounded-2xl border border-white/10 backdrop-blur-lg hover:border-indigo-500/50 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:shadow-indigo-500/20" data-aos="fade-up" data-aos-delay="600">
+                    <div class="w-16 h-16 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl flex items-center justify-center mb-6 feature-icon">
+                        <i class="fas fa-bell text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-indigo-400">Smart Notifications</h3>
+                    <p class="text-gray-300 mb-4">Automated notifications for events, deadlines, and certificate deliveries with customizable preferences.</p>
+                    <ul class="text-gray-400 space-y-2">
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Email notifications</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>SMS alerts</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Push notifications</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Custom schedules</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Advanced Features Section -->
+    <section class="py-20 relative">
+        <div class="absolute inset-0 bg-gradient-to-b from-purple-900/20 to-gray-900"></div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <h2 class="text-4xl md:text-5xl font-black text-center mb-16 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent" data-aos="fade-up">
+                Advanced Capabilities
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <!-- Left Column -->
+                <div class="space-y-8">
+                    <div class="glass-card p-8 rounded-2xl border border-white/10 backdrop-blur-lg" data-aos="fade-right">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 bg-gradient-to-r from-red-500 to-pink-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-shield-alt text-white"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold mb-3 text-red-400">Advanced Security</h3>
+                                <p class="text-gray-300">Enterprise-grade security with role-based access control, data encryption, and compliance with educational standards.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="glass-card p-8 rounded-2xl border border-white/10 backdrop-blur-lg" data-aos="fade-right" data-aos-delay="100">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-plug text-white"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold mb-3 text-blue-400">API Integration</h3>
+                                <p class="text-gray-300">Seamless integration with existing college systems, LMS platforms, and third-party applications via RESTful APIs.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="glass-card p-8 rounded-2xl border border-white/10 backdrop-blur-lg" data-aos="fade-right" data-aos-delay="200">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-mobile-alt text-white"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold mb-3 text-green-400">Mobile App Support</h3>
+                                <p class="text-gray-300">Native mobile applications for iOS and Android, enabling students and staff to manage events on the go.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Column -->
+                <div class="space-y-8">
+                    <div class="glass-card p-8 rounded-2xl border border-white/10 backdrop-blur-lg" data-aos="fade-left">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-robot text-white"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold mb-3 text-purple-400">AI-Powered Insights</h3>
+                                <p class="text-gray-300">Machine learning algorithms provide predictive analytics, student engagement patterns, and event recommendations.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="glass-card p-8 rounded-2xl border border-white/10 backdrop-blur-lg" data-aos="fade-left" data-aos-delay="100">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-language text-white"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold mb-3 text-yellow-400">Multi-Language Support</h3>
+                                <p class="text-gray-300">Support for multiple languages and regional formats, making it accessible to diverse student populations.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="glass-card p-8 rounded-2xl border border-white/10 backdrop-blur-lg" data-aos="fade-left" data-aos-delay="200">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-cloud text-white"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold mb-3 text-teal-400">Cloud Infrastructure</h3>
+                                <p class="text-gray-300">Scalable cloud hosting with automatic backups, disaster recovery, and 99.9% uptime guarantee.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Integration Section -->
+    <section class="py-20 relative">
+        <div class="absolute inset-0 bg-gradient-to-b from-gray-900 to-blue-900/20"></div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <h2 class="text-4xl md:text-5xl font-black text-center mb-16 bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent" data-aos="fade-up">
+                Seamless Integrations
+            </h2>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div class="glass-card p-6 rounded-2xl border border-white/10 backdrop-blur-lg text-center hover:border-cyan-500/50 transition-all duration-300" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <i class="fab fa-google text-2xl text-white"></i>
+                    </div>
+                    <h4 class="font-semibold text-cyan-400">Google Workspace</h4>
+                </div>
+                
+                <div class="glass-card p-6 rounded-2xl border border-white/10 backdrop-blur-lg text-center hover:border-purple-500/50 transition-all duration-300" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="w-16 h-16 bg-gradient-to-r from-gray-600 to-gray-700 rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <i class="fab fa-microsoft text-2xl text-white"></i>
+                    </div>
+                    <h4 class="font-semibold text-purple-400">Office 365</h4>
+                </div>
+                
+                <div class="glass-card p-6 rounded-2xl border border-white/10 backdrop-blur-lg text-center hover:border-green-500/50 transition-all duration-300" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-graduation-cap text-2xl text-white"></i>
+                    </div>
+                    <h4 class="font-semibold text-green-400">Moodle</h4>
+                </div>
+                
+                <div class="glass-card p-6 rounded-2xl border border-white/10 backdrop-blur-lg text-center hover:border-pink-500/50 transition-all duration-300" data-aos="zoom-in" data-aos-delay="400">
+                    <div class="w-16 h-16 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <i class="fab fa-slack text-2xl text-white"></i>
+                    </div>
+                    <h4 class="font-semibold text-pink-400">Slack</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 relative">
+        <div class="absolute inset-0 bg-gradient-to-r from-purple-900 to-cyan-900">
+            <div class="absolute inset-0 bg-black/50"></div>
+        </div>
+        
+        <div class="container mx-auto px-6 relative z-10 text-center">
+            <h2 class="text-4xl md:text-5xl font-black mb-6 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent" data-aos="fade-up">
+                Experience All Features Today
+            </h2>
+            
+            <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+                Start your free trial and explore all the powerful features EventHub has to offer.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-6 justify-center" data-aos="fade-up" data-aos-delay="400">
+                <a href="register.html" class="bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-700 hover:to-cyan-700 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:shadow-cyan-500/25 ripple inline-block text-center">
+                    <i class="fas fa-rocket mr-2"></i> Start Free Trial
+                </a>
+                <a href="dashboard.html" class="border-2 border-cyan-500 text-cyan-400 hover:bg-cyan-500 hover:text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 transform hover:scale-105 ripple inline-block text-center">
+                    <i class="fas fa-play mr-2"></i> Watch Demo
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 relative">
+        <div class="absolute inset-0 bg-gradient-to-t from-purple-900 to-gray-900"></div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center">
+                <div class="flex justify-center space-x-6 mb-8">
+                    <a href="#" class="social-icon text-gray-400 hover:text-cyan-400 transition-colors duration-300 transform hover:scale-110">
+                        <i class="fab fa-facebook text-2xl"></i>
+                    </a>
+                    <a href="#" class="social-icon text-gray-400 hover:text-purple-400 transition-colors duration-300 transform hover:scale-110">
+                        <i class="fab fa-twitter text-2xl"></i>
+                    </a>
+                    <a href="#" class="social-icon text-gray-400 hover:text-pink-400 transition-colors duration-300 transform hover:scale-110">
+                        <i class="fab fa-instagram text-2xl"></i>
+                    </a>
+                    <a href="#" class="social-icon text-gray-400 hover:text-blue-400 transition-colors duration-300 transform hover:scale-110">
+                        <i class="fab fa-linkedin text-2xl"></i>
+                    </a>
+                    <a href="#" class="social-icon text-gray-400 hover:text-green-400 transition-colors duration-300 transform hover:scale-110">
+                        <i class="fab fa-github text-2xl"></i>
+                    </a>
+                </div>
+                
+                <div class="border-t border-white/10 pt-8">
+                    <p class="text-gray-400">© 2024 EventHub. All rights reserved. | College Event Participation & Certificate System</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+</body>
+</html>

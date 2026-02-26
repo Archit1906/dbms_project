@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - EventHub | College Event Participation & Certificate System</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Custom JS -->
+    <script src="js/main.js" defer></script>
+</head>
+<body class="bg-gray-900 text-white overflow-x-hidden font-inter">
+    
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 w-full z-50 backdrop-blur-lg bg-gray-900/80 border-b border-white/10 transition-all duration-300">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <div class="w-10 h-10 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-graduation-cap text-white"></i>
+                    </div>
+                    <span class="text-xl font-bold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">EventHub</span>
+                </div>
+                
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html" class="nav-link text-gray-300 hover:text-white transition-colors duration-300">Home</a>
+                    <a href="features.html" class="nav-link text-gray-300 hover:text-white transition-colors duration-300">Features</a>
+                    <a href="register.html" class="nav-link text-gray-300 hover:text-white transition-colors duration-300">Register</a>
+                    <a href="dashboard.html" class="nav-link text-cyan-400 font-semibold">Dashboard</a>
+                    <a href="certificates.html" class="nav-link text-gray-300 hover:text-white transition-colors duration-300">Certificates</a>
+                </div>
+                
+                <button id="mobile-menu-btn" class="md:hidden text-white">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-gray-900/95 backdrop-blur-lg border-t border-white/10">
+            <div class="px-6 py-4 space-y-3">
+                <a href="index.html" class="block text-gray-300 hover:text-white transition-colors duration-300">Home</a>
+                <a href="features.html" class="block text-gray-300 hover:text-white transition-colors duration-300">Features</a>
+                <a href="register.html" class="block text-gray-300 hover:text-white transition-colors duration-300">Register</a>
+                <a href="dashboard.html" class="block text-cyan-400 font-semibold">Dashboard</a>
+                <a href="certificates.html" class="block text-gray-300 hover:text-white transition-colors duration-300">Certificates</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Header -->
+    <section class="pt-24 pb-12 relative">
+        <div class="absolute inset-0 bg-gradient-to-br from-purple-900 via-blue-900 to-cyan-900">
+            <div class="absolute inset-0 bg-black/50"></div>
+        </div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div>
+                    <h1 class="text-4xl md:text-5xl font-black mb-4 bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-400 bg-clip-text text-transparent" data-aos="fade-up">
+                        Analytics Dashboard
+                    </h1>
+                    <p class="text-xl text-gray-300" data-aos="fade-up" data-aos-delay="200">
+                        Real-time insights and comprehensive analytics for your college events.
+                    </p>
+                </div>
+                
+                <div class="flex space-x-4 mt-6 md:mt-0" data-aos="fade-left">
+                    <button class="bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-700 hover:to-cyan-700 text-white px-6 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105">
+                        <i class="fas fa-download mr-2"></i> Export Report
+                    </button>
+                    <button class="border-2 border-cyan-500 text-cyan-400 hover:bg-cyan-500 hover:text-white px-6 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105">
+                        <i class="fas fa-filter mr-2"></i> Filter
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Cards -->
+    <section class="py-12 relative">
+        <div class="absolute inset-0 bg-gradient-to-b from-gray-900 to-purple-900/20"></div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="glass-card p-6 rounded-2xl border border-white/10 backdrop-blur-lg hover:border-cyan-500/50 transition-all duration-300" data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-users text-white"></i>
+                        </div>
+                        <span class="text-green-400 text-sm font-semibold">+12.5%</span>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-2">Total Students</p>
+                    <p class="text-3xl font-bold text-cyan-400 counter" data-target="1250">0</p>
+                </div>
+                
+                <div class="glass-card p-6 rounded-2xl border border-white/10 backdrop-blur-lg hover:border-purple-500/50 transition-all duration-300" data-aos="fade-up" data-aos-delay="200">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-calendar-alt text-white"></i>
+                        </div>
+                        <span class="text-green-400 text-sm font-semibold">+8.3%</span>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-2">Total Events</p>
+                    <p class="text-3xl font-bold text-purple-400 counter" data-target="48">0</p>
+                </div>
+                
+                <div class="glass-card p-6 rounded-2xl border border-white/10 backdrop-blur-lg hover:border-green-500/50 transition-all duration-300" data-aos="fade-up" data-aos-delay="300">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-certificate text-white"></i>
+                        </div>
+                        <span class="text-green-400 text-sm font-semibold">+15.7%</span>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-2">Certificates Issued</p>
+                    <p class="text-3xl font-bold text-green-400 counter" data-target="892">0</p>
+                </div>
+                
+                <div class="glass-card p-6 rounded-2xl border border-white/10 backdrop-blur-lg hover:border-yellow-500/50 transition-all duration-300" data-aos="fade-up" data-aos-delay="400">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-chart-line text-white"></i>
+                        </div>
+                        <span class="text-red-400 text-sm font-semibold">-2.1%</span>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-2">Avg. Participation</p>
+                    <p class="text-3xl font-bold text-yellow-400 counter" data-target="78">0</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Charts Section -->
+    <section class="py-12 relative">
+        <div class="absolute inset-0 bg-gradient-to-b from-purple-900/20 to-gray-900"></div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Participation Trends Chart -->
+                <div class="glass-card p-8 rounded-2xl border border-white/10 backdrop-blur-lg" data-aos="fade-up">
+                    <h3 class="text-2xl font-bold mb-6 text-cyan-400">Event Participation Trends</h3>
+                    <div class="relative h-80">
+                        <canvas id="participation-chart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Department Distribution Chart -->
+                <div class="glass-card p-8 rounded-2xl border border-white/10 backdrop-blur-lg" data-aos="fade-up" data-aos-delay="200">
+                    <h3 class="text-2xl font-bold mb-6 text-purple-400">Department Distribution</h3>
+                    <div class="relative h-80">
+                        <canvas id="department-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Event Types Chart -->
+            <div class="glass-card p-8 rounded-2xl border border-white/10 backdrop-blur-lg mt-8" data-aos="fade-up" data-aos-delay="400">
+                <h3 class="text-2xl font-bold mb-6 text-green-400">Event Types Performance</h3>
+                <div class="relative h-80">
+                    <canvas id="event-types-chart"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recent Activity -->
+    <section class="py-12 relative">
+        <div class="absolute inset-0 bg-gradient-to-b from-gray-900 to-purple-900/20"></div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Recent Events -->
+                <div class="lg:col-span-2 glass-card p-8 rounded-2xl border border-white/10 backdrop-blur-lg" data-aos="fade-up">
+                    <h3 class="text-2xl font-bold mb-6 text-cyan-400">Recent Events</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-all duration-300">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-code text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-white">Hackathon 2024</h4>
+                                    <p class="text-gray-400 text-sm">Computer Science Department</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-green-400 font-semibold">245 Participants</p>
+                                <p class="text-gray-400 text-sm">2 days ago</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-all duration-300">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-music text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-white">Cultural Fest</h4>
+                                    <p class="text-gray-400 text-sm">Student Council</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-green-400 font-semibold">512 Participants</p>
+                                <p class="text-gray-400 text-sm">5 days ago</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-all duration-300">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-12 h-12 bg-gradient-to-r from-pink-500 to-rose-500 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-basketball-ball text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-white">Sports Tournament</h4>
+                                    <p class="text-gray-400 text-sm">Physical Education</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-green-400 font-semibold">189 Participants</p>
+                                <p class="text-gray-400 text-sm">1 week ago</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-all duration-300">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-12 h-12 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-palette text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-white">Art Exhibition</h4>
+                                    <p class="text-gray-400 text-sm">Fine Arts Department</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-green-400 font-semibold">98 Participants</p>
+                                <p class="text-gray-400 text-sm">2 weeks ago</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Top Performers -->
+                <div class="glass-card p-8 rounded-2xl border border-white/10 backdrop-blur-lg" data-aos="fade-up" data-aos-delay="200">
+                    <h3 class="text-2xl font-bold mb-6 text-purple-400">Top Performers</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full flex items-center justify-center font-bold text-white">
+                                1
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-semibold text-white">Priya Sharma</p>
+                                <p class="text-gray-400 text-sm">Computer Science</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-yellow-400 font-bold">12 Events</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-gradient-to-r from-gray-300 to-gray-400 rounded-full flex items-center justify-center font-bold text-white">
+                                2
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-semibold text-white">Rahul Kumar</p>
+                                <p class="text-gray-400 text-sm">Mechanical Engineering</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-gray-300 font-bold">10 Events</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-gradient-to-r from-orange-600 to-orange-700 rounded-full flex items-center justify-center font-bold text-white">
+                                3
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-semibold text-white">Anita Patel</p>
+                                <p class="text-gray-400 text-sm">Information Technology</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-orange-400 font-bold">9 Events</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center font-bold text-white">
+                                4
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-semibold text-white">Vikram Singh</p>
+                                <p class="text-gray-400 text-sm">Electronics Engineering</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-gray-400 font-bold">8 Events</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center font-bold text-white">
+                                5
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-semibold text-white">Neha Gupta</p>
+                                <p class="text-gray-400 text-sm">Civil Engineering</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-gray-400 font-bold">7 Events</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Actions -->
+    <section class="py-12 relative">
+        <div class="absolute inset-0 bg-gradient-to-b from-purple-900/20 to-gray-900"></div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <h3 class="text-2xl font-bold mb-8 text-center text-cyan-400" data-aos="fade-up">Quick Actions</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <a href="register.html" class="glass-card p-6 rounded-2xl border border-white/10 backdrop-blur-lg hover:border-purple-500/50 transition-all duration-300 transform hover:scale-105 text-center group" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-user-plus text-2xl text-white"></i>
+                    </div>
+                    <h4 class="font-semibold text-white mb-2">Add Student</h4>
+                    <p class="text-gray-400 text-sm">Register new students</p>
+                </a>
+                
+                <a href="#" class="glass-card p-6 rounded-2xl border border-white/10 backdrop-blur-lg hover:border-green-500/50 transition-all duration-300 transform hover:scale-105 text-center group" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-calendar-plus text-2xl text-white"></i>
+                    </div>
+                    <h4 class="font-semibold text-white mb-2">Create Event</h4>
+                    <p class="text-gray-400 text-sm">Schedule new events</p>
+                </a>
+                
+                <a href="certificates.html" class="glass-card p-6 rounded-2xl border border-white/10 backdrop-blur-lg hover:border-yellow-500/50 transition-all duration-300 transform hover:scale-105 text-center group" data-aos="fade-up" data-aos-delay="300">
+                    <div class="w-16 h-16 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-certificate text-2xl text-white"></i>
+                    </div>
+                    <h4 class="font-semibold text-white mb-2">Generate Certificate</h4>
+                    <p class="text-gray-400 text-sm">Create certificates</p>
+                </a>
+                
+                <a href="#" class="glass-card p-6 rounded-2xl border border-white/10 backdrop-blur-lg hover:border-pink-500/50 transition-all duration-300 transform hover:scale-105 text-center group" data-aos="fade-up" data-aos-delay="400">
+                    <div class="w-16 h-16 bg-gradient-to-r from-pink-500 to-rose-500 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-file-export text-2xl text-white"></i>
+                    </div>
+                    <h4 class="font-semibold text-white mb-2">Export Data</h4>
+                    <p class="text-gray-400 text-sm">Download reports</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 relative">
+        <div class="absolute inset-0 bg-gradient-to-t from-purple-900 to-gray-900"></div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center">
+                <div class="flex justify-center space-x-6 mb-8">
+                    <a href="#" class="social-icon text-gray-400 hover:text-cyan-400 transition-colors duration-300 transform hover:scale-110">
+                        <i class="fab fa-facebook text-2xl"></i>
+                    </a>
+                    <a href="#" class="social-icon text-gray-400 hover:text-purple-400 transition-colors duration-300 transform hover:scale-110">
+                        <i class="fab fa-twitter text-2xl"></i>
+                    </a>
+                    <a href="#" class="social-icon text-gray-400 hover:text-pink-400 transition-colors duration-300 transform hover:scale-110">
+                        <i class="fab fa-instagram text-2xl"></i>
+                    </a>
+                    <a href="#" class="social-icon text-gray-400 hover:text-blue-400 transition-colors duration-300 transform hover:scale-110">
+                        <i class="fab fa-linkedin text-2xl"></i>
+                    </a>
+                    <a href="#" class="social-icon text-gray-400 hover:text-green-400 transition-colors duration-300 transform hover:scale-110">
+                        <i class="fab fa-github text-2xl"></i>
+                    </a>
+                </div>
+                
+                <div class="border-t border-white/10 pt-8">
+                    <p class="text-gray-400">© 2024 EventHub. All rights reserved. | College Event Participation & Certificate System</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+</body>
+</html>

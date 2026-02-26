@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - EventHub | College Event Participation & Certificate System</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Custom JS -->
+    <script src="js/main.js" defer></script>
+</head>
+<body class="bg-gray-900 text-white overflow-x-hidden font-inter">
+    
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 w-full z-50 backdrop-blur-lg bg-gray-900/80 border-b border-white/10 transition-all duration-300">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <div class="w-10 h-10 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-graduation-cap text-white"></i>
+                    </div>
+                    <span class="text-xl font-bold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">EventHub</span>
+                </div>
+                
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html" class="nav-link text-gray-300 hover:text-white transition-colors duration-300">Home</a>
+                    <a href="features.html" class="nav-link text-gray-300 hover:text-white transition-colors duration-300">Features</a>
+                    <a href="register.html" class="nav-link text-cyan-400 font-semibold">Register</a>
+                    <a href="dashboard.html" class="nav-link text-gray-300 hover:text-white transition-colors duration-300">Dashboard</a>
+                    <a href="certificates.html" class="nav-link text-gray-300 hover:text-white transition-colors duration-300">Certificates</a>
+                </div>
+                
+                <button id="mobile-menu-btn" class="md:hidden text-white">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-gray-900/95 backdrop-blur-lg border-t border-white/10">
+            <div class="px-6 py-4 space-y-3">
+                <a href="index.html" class="block text-gray-300 hover:text-white transition-colors duration-300">Home</a>
+                <a href="features.html" class="block text-gray-300 hover:text-white transition-colors duration-300">Features</a>
+                <a href="register.html" class="block text-cyan-400 font-semibold">Register</a>
+                <a href="dashboard.html" class="block text-gray-300 hover:text-white transition-colors duration-300">Dashboard</a>
+                <a href="certificates.html" class="block text-gray-300 hover:text-white transition-colors duration-300">Certificates</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="min-h-screen relative flex items-center justify-center">
+        <div class="absolute inset-0 bg-gradient-to-br from-purple-900 via-blue-900 to-cyan-900">
+            <div class="absolute inset-0 bg-black/50"></div>
+        </div>
+        
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+        
+        <canvas id="particles-canvas" class="absolute inset-0"></canvas>
+        
+        <div class="relative z-10 text-center px-6 max-w-4xl mx-auto">
+            <h1 class="text-5xl md:text-7xl font-black mb-6 bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-400 bg-clip-text text-transparent animate-gradient" data-aos="fade-up">
+                Student Registration
+            </h1>
+            
+            <p class="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+                Join our vibrant community and start participating in amazing college events.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-6 justify-center" data-aos="fade-up" data-aos-delay="400">
+                <a href="#registration-form" class="bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-700 hover:to-cyan-700 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:shadow-cyan-500/25 ripple inline-block text-center">
+                    <i class="fas fa-user-plus mr-2"></i> Register Now
+                </a>
+                <a href="features.html" class="border-2 border-cyan-500 text-cyan-400 hover:bg-cyan-500 hover:text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 transform hover:scale-105 ripple inline-block text-center">
+                    <i class="fas fa-info-circle mr-2"></i> Learn More
+                </a>
+            </div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <i class="fas fa-chevron-down text-2xl text-cyan-400"></i>
+        </div>
+    </section>
+
+    <!-- Registration Form Section -->
+    <section id="registration-form" class="py-20 relative">
+        <div class="absolute inset-0 bg-gradient-to-b from-purple-900/20 to-gray-900"></div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <h2 class="text-4xl md:text-5xl font-black text-center mb-16 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent" data-aos="fade-up">
+                Create Your Account
+            </h2>
+            
+            <div class="max-w-4xl mx-auto">
+                <form id="registration-form" class="glass-card p-8 rounded-2xl border border-white/10 backdrop-blur-lg" data-aos="fade-up">
+                    <!-- Personal Information -->
+                    <div class="mb-12">
+                        <h3 class="text-2xl font-bold mb-6 text-cyan-400 flex items-center">
+                            <i class="fas fa-user mr-3"></i> Personal Information
+                        </h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="form-group">
+                                <label for="firstName" class="floating-label">First Name</label>
+                                <input type="text" id="firstName" name="firstName" class="form-input" placeholder=" " required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="lastName" class="floating-label">Last Name</label>
+                                <input type="text" id="lastName" name="lastName" class="form-input" placeholder=" " required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="email" class="floating-label">Email Address</label>
+                                <input type="email" id="email" name="email" class="form-input" placeholder=" " required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="phone" class="floating-label">Phone Number</label>
+                                <input type="tel" id="phone" name="phone" class="form-input" placeholder=" " required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="dateOfBirth" class="floating-label">Date of Birth</label>
+                                <input type="date" id="dateOfBirth" name="dateOfBirth" class="form-input" placeholder=" " required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="gender" class="floating-label">Gender</label>
+                                <select id="gender" name="gender" class="form-input" placeholder=" " required>
+                                    <option value="">Select Gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Academic Information -->
+                    <div class="mb-12">
+                        <h3 class="text-2xl font-bold mb-6 text-purple-400 flex items-center">
+                            <i class="fas fa-graduation-cap mr-3"></i> Academic Information
+                        </h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="form-group">
+                                <label for="studentId" class="floating-label">Student ID</label>
+                                <input type="text" id="studentId" name="studentId" class="form-input" placeholder=" " required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="department" class="floating-label">Department</label>
+                                <select id="department" name="department" class="form-input" placeholder=" " required>
+                                    <option value="">Select Department</option>
+                                    <option value="cs">Computer Science</option>
+                                    <option value="it">Information Technology</option>
+                                    <option value="ece">Electronics & Communication</option>
+                                    <option value="mech">Mechanical Engineering</option>
+                                    <option value="civil">Civil Engineering</option>
+                                    <option value="eee">Electrical & Electronics</option>
+                                    <option value="chemical">Chemical Engineering</option>
+                                    <option value="bio">Biotechnology</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="year" class="floating-label">Academic Year</label>
+                                <select id="year" name="year" class="form-input" placeholder=" " required>
+                                    <option value="">Select Year</option>
+                                    <option value="1">1st Year</option>
+                                    <option value="2">2nd Year</option>
+                                    <option value="3">3rd Year</option>
+                                    <option value="4">4th Year</option>
+                                    <option value="5">5th Year</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="semester" class="floating-label">Semester</label>
+                                <select id="semester" name="semester" class="form-input" placeholder=" " required>
+                                    <option value="">Select Semester</option>
+                                    <option value="1">Semester 1</option>
+                                    <option value="2">Semester 2</option>
+                                    <option value="3">Semester 3</option>
+                                    <option value="4">Semester 4</option>
+                                    <option value="5">Semester 5</option>
+                                    <option value="6">Semester 6</option>
+                                    <option value="7">Semester 7</option>
+                                    <option value="8">Semester 8</option>
+                                    <option value="9">Semester 9</option>
+                                    <option value="10">Semester 10</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="gpa" class="floating-label">Current GPA</label>
+                                <input type="number" id="gpa" name="gpa" class="form-input" placeholder=" " step="0.01" min="0" max="10">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="advisor" class="floating-label">Faculty Advisor</label>
+                                <input type="text" id="advisor" name="advisor" class="form-input" placeholder=" ">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Address Information -->
+                    <div class="mb-12">
+                        <h3 class="text-2xl font-bold mb-6 text-green-400 flex items-center">
+                            <i class="fas fa-map-marker-alt mr-3"></i> Address Information
+                        </h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="form-group md:col-span-2">
+                                <label for="address" class="floating-label">Street Address</label>
+                                <input type="text" id="address" name="address" class="form-input" placeholder=" " required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="city" class="floating-label">City</label>
+                                <input type="text" id="city" name="city" class="form-input" placeholder=" " required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="state" class="floating-label">State</label>
+                                <input type="text" id="state" name="state" class="form-input" placeholder=" " required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="pincode" class="floating-label">PIN Code</label>
+                                <input type="text" id="pincode" name="pincode" class="form-input" placeholder=" " required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="country" class="floating-label">Country</label>
+                                <input type="text" id="country" name="country" class="form-input" placeholder="India" value="India" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Skills & Interests -->
+                    <div class="mb-12">
+                        <h3 class="text-2xl font-bold mb-6 text-pink-400 flex items-center">
+                            <i class="fas fa-heart mr-3"></i> Skills & Interests
+                        </h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="form-group">
+                                <label for="skills" class="floating-label">Technical Skills</label>
+                                <textarea id="skills" name="skills" class="form-input" rows="3" placeholder="e.g., Programming, Design, Public Speaking"></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="interests" class="floating-label">Areas of Interest</label>
+                                <textarea id="interests" name="interests" class="form-input" rows="3" placeholder="e.g., Sports, Music, Technology, Arts"></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="experience" class="floating-label">Previous Experience</label>
+                                <textarea id="experience" name="experience" class="form-input" rows="3" placeholder="Any previous event participation or organizing experience"></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="achievements" class="floating-label">Achievements</label>
+                                <textarea id="achievements" name="achievements" class="form-input" rows="3" placeholder="Awards, certifications, or notable achievements"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Preferences -->
+                    <div class="mb-12">
+                        <h3 class="text-2xl font-bold mb-6 text-yellow-400 flex items-center">
+                            <i class="fas fa-cog mr-3"></i> Preferences
+                        </h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="form-group">
+                                <label for="eventTypes" class="floating-label">Preferred Event Types</label>
+                                <select id="eventTypes" name="eventTypes" class="form-input" multiple>
+                                    <option value="technical">Technical Events</option>
+                                    <option value="cultural">Cultural Events</option>
+                                    <option value="sports">Sports Events</option>
+                                    <option value="workshop">Workshops</option>
+                                    <option value="seminar">Seminars</option>
+                                    <option value="competition">Competitions</option>
+                                </select>
+                                <small class="text-gray-400">Hold Ctrl/Cmd to select multiple</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="notifications" class="floating-label">Notification Preferences</label>
+                                <div class="space-y-2 mt-4">
+                                    <label class="flex items-center">
+                                        <input type="checkbox" name="emailNotifications" class="mr-2" checked>
+                                        <span>Email Notifications</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" name="smsNotifications" class="mr-2">
+                                        <span>SMS Notifications</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" name="pushNotifications" class="mr-2" checked>
+                                        <span>Push Notifications</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Terms and Conditions -->
+                    <div class="mb-8">
+                        <div class="glass-card p-6 rounded-xl border border-white/10">
+                            <label class="flex items-start">
+                                <input type="checkbox" name="terms" class="mt-1 mr-3" required>
+                                <span class="text-gray-300">
+                                    I agree to the <a href="#" class="text-cyan-400 hover:text-cyan-300">Terms and Conditions</a> and 
+                                    <a href="#" class="text-cyan-400 hover:text-cyan-300">Privacy Policy</a>. 
+                                    I understand that my information will be used for event management purposes only.
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Submit Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-6 justify-center">
+                        <button type="submit" class="bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-700 hover:to-cyan-700 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:shadow-cyan-500/25 ripple">
+                            <i class="fas fa-user-plus mr-2"></i> Complete Registration
+                        </button>
+                        <button type="reset" class="border-2 border-red-500 text-red-400 hover:bg-red-500 hover:text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 transform hover:scale-105">
+                            <i class="fas fa-redo mr-2"></i> Reset Form
+                        </button>
+                    </div>
+                </form>
+                
+                <!-- Success Message -->
+                <div id="success-message" class="hidden glass-card p-6 rounded-2xl border border-green-500/50 bg-green-500/10 backdrop-blur-lg mt-6">
+                    <div class="flex items-center">
+                        <i class="fas fa-check-circle text-green-400 text-2xl mr-4"></i>
+                        <div>
+                            <h4 class="text-green-400 font-bold">Registration Successful!</h4>
+                            <p class="text-gray-300">Your account has been created successfully. You will receive a confirmation email shortly.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Error Message -->
+                <div id="error-message" class="hidden glass-card p-6 rounded-2xl border border-red-500/50 bg-red-500/10 backdrop-blur-lg mt-6">
+                    <div class="flex items-center">
+                        <i class="fas fa-exclamation-circle text-red-400 text-2xl mr-4"></i>
+                        <div>
+                            <h4 class="text-red-400 font-bold">Registration Failed</h4>
+                            <p class="text-gray-300">There was an error processing your registration. Please try again.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="py-20 relative">
+        <div class="absolute inset-0 bg-gradient-to-b from-gray-900 to-purple-900/20"></div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <h2 class="text-4xl md:text-5xl font-black text-center mb-16 bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent" data-aos="fade-up">
+                Why Register With EventHub?
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="glass-card p-8 rounded-2xl border border-white/10 backdrop-blur-lg text-center" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-20 h-20 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-calendar-check text-3xl text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 text-cyan-400">Easy Event Registration</h3>
+                    <p class="text-gray-300">Sign up for events with just a few clicks and manage your participation seamlessly.</p>
+                </div>
+                
+                <div class="glass-card p-8 rounded-2xl border border-white/10 backdrop-blur-lg text-center" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-20 h-20 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-certificate text-3xl text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 text-green-400">Digital Certificates</h3>
+                    <p class="text-gray-300">Receive verified digital certificates for your participation and achievements.</p>
+                </div>
+                
+                <div class="glass-card p-8 rounded-2xl border border-white/10 backdrop-blur-lg text-center" data-aos="fade-up" data-aos-delay="300">
+                    <div class="w-20 h-20 bg-gradient-to-r from-pink-500 to-rose-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-chart-line text-3xl text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 text-pink-400">Track Your Progress</h3>
+                    <p class="text-gray-300">Monitor your event participation history and build your co-curricular portfolio.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-20 relative">
+        <div class="absolute inset-0 bg-gradient-to-b from-purple-900/20 to-gray-900"></div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <h2 class="text-4xl md:text-5xl font-black text-center mb-16 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent" data-aos="fade-up">
+                Frequently Asked Questions
+            </h2>
+            
+            <div class="max-w-3xl mx-auto space-y-6">
+                <div class="glass-card p-6 rounded-xl border border-white/10 backdrop-blur-lg" data-aos="fade-up" data-aos-delay="100">
+                    <h4 class="text-lg font-bold mb-3 text-cyan-400">Is registration free?</h4>
+                    <p class="text-gray-300">Yes, student registration on EventHub is completely free of charge.</p>
+                </div>
+                
+                <div class="glass-card p-6 rounded-xl border border-white/10 backdrop-blur-lg" data-aos="fade-up" data-aos-delay="200">
+                    <h4 class="text-lg font-bold mb-3 text-purple-400">How do I verify my certificates?</h4>
+                    <p class="text-gray-300">Each certificate comes with a unique QR code that can be scanned to verify its authenticity.</p>
+                </div>
+                
+                <div class="glass-card p-6 rounded-xl border border-white/10 backdrop-blur-lg" data-aos="fade-up" data-aos-delay="300">
+                    <h4 class="text-lg font-bold mb-3 text-green-400">Can I edit my information after registration?</h4>
+                    <p class="text-gray-300">Yes, you can update your profile information anytime from your dashboard.</p>
+                </div>
+                
+                <div class="glass-card p-6 rounded-xl border border-white/10 backdrop-blur-lg" data-aos="fade-up" data-aos-delay="400">
+                    <h4 class="text-lg font-bold mb-3 text-pink-400">How do I register for events?</h4>
+                    <p class="text-gray-300">Once registered, you can browse available events and register with a single click.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 relative">
+        <div class="absolute inset-0 bg-gradient-to-t from-purple-900 to-gray-900"></div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center">
+                <div class="flex justify-center space-x-6 mb-8">
+                    <a href="#" class="social-icon text-gray-400 hover:text-cyan-400 transition-colors duration-300 transform hover:scale-110">
+                        <i class="fab fa-facebook text-2xl"></i>
+                    </a>
+                    <a href="#" class="social-icon text-gray-400 hover:text-purple-400 transition-colors duration-300 transform hover:scale-110">
+                        <i class="fab fa-twitter text-2xl"></i>
+                    </a>
+                    <a href="#" class="social-icon text-gray-400 hover:text-pink-400 transition-colors duration-300 transform hover:scale-110">
+                        <i class="fab fa-instagram text-2xl"></i>
+                    </a>
+                    <a href="#" class="social-icon text-gray-400 hover:text-blue-400 transition-colors duration-300 transform hover:scale-110">
+                        <i class="fab fa-linkedin text-2xl"></i>
+                    </a>
+                    <a href="#" class="social-icon text-gray-400 hover:text-green-400 transition-colors duration-300 transform hover:scale-110">
+                        <i class="fab fa-github text-2xl"></i>
+                    </a>
+                </div>
+                
+                <div class="border-t border-white/10 pt-8">
+                    <p class="text-gray-400">© 2024 EventHub. All rights reserved. | College Event Participation & Certificate System</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+</body>
+</html>
