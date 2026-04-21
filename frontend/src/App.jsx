@@ -24,6 +24,13 @@ import EventsAdmin from './pages/admin/Events';
 import Participants from './pages/admin/Participants';
 import Certificates from './pages/admin/Certificates';
 import AdminAnalytics from './pages/admin/AdminAnalytics';
+import Registrations from './pages/admin/Registrations';
+import Speakers from './pages/admin/Speakers';
+import Attendees from './pages/admin/Attendees';
+import Schedule from './pages/admin/Schedule';
+import Users from './pages/admin/Users';
+import Settings from './pages/admin/Settings';
+import Notifications from './pages/admin/Notifications';
 
 const App = () => {
   const { isAuthenticated, setUser, logout } = useAuthStore();
@@ -73,6 +80,13 @@ const App = () => {
             <Route path="/admin/events/:id/participants" element={<Participants />} />
             <Route path="/admin/certificates" element={<Certificates />} />
             <Route path="/admin/analytics" element={<AdminAnalytics />} />
+            <Route path="/admin/registrations" element={<Registrations />} />
+            <Route path="/admin/speakers" element={<Speakers />} />
+            <Route path="/admin/attendees" element={<Attendees />} />
+            <Route path="/admin/schedule" element={<Schedule />} />
+            <Route path="/admin/users" element={<Users />} />
+            <Route path="/admin/settings" element={<Settings />} />
+            <Route path="/admin/notifications" element={<Notifications />} />
           </Route>
         </Route>
 
