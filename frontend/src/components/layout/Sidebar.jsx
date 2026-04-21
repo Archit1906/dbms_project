@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { 
   LayoutDashboard, BarChart2, CalendarDays, ClipboardCheck, 
-  Mic, Users, Award, Clock, UserCog, Settings, Bell, Home, ClipboardList
+  Mic, Users, Award, Clock, UserCog, Settings, Bell, Home, ClipboardList, Heart
 } from 'lucide-react';
 import useAuthStore from '../../store/authStore';
 
@@ -28,6 +28,10 @@ const Sidebar = () => {
     { name: 'Event Catalog', path: '/events/catalog', icon: Home },
     { name: 'My Registrations', path: '/student/registrations', icon: ClipboardList },
     { name: 'My Certificates', path: '/student/certificates', icon: Award },
+    { name: 'Favorites', path: '/student/favorites', icon: Heart },
+    { name: 'Notifications', path: '/student/notifications', icon: Bell },
+    { name: 'Profile', path: '/student/profile', icon: UserCog },
+    { name: 'Settings', path: '/student/settings', icon: Settings },
   ];
 
   const menuItems = isAdmin ? adminMenu : studentMenu;

@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, Search, Filter } from 'lucide-react';
 import api from '../../api/axios';
+import EventModal from '../../components/admin/EventModal';
 
 const EventsAdmin = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState(null);
 
   useEffect(() => {
     fetchEvents();
@@ -21,13 +24,26 @@ const EventsAdmin = () => {
     }
   };
 
-  const mockEvents = [
-    { event_id: 1, title: 'Tech Fest 2025', date: 'Apr 25, 2025', category: 'Technology', registrations: 120, attendance: '102 (85%)', status: 'Active' },
-    { event_id: 2, title: 'Design Workshop', date: 'Apr 28, 2025', category: 'Design', registrations: 75, attendance: '55 (73%)', status: 'Upcoming' },
-    { event_id: 3, title: 'AI Conference 2025', date: 'May 02, 2025', category: 'Conference', registrations: 95, attendance: '-', status: 'Upcoming' },
-    { event_id: 4, title: 'Robotics Expo', date: 'May 07, 2025', category: 'Exhibition', registrations: 80, attendance: '-', status: 'Upcoming' },
-    { event_id: 5, title: 'Marketing Summit', date: 'May 15, 2025', category: 'Conference', registrations: 60, attendance: '-', status: 'Draft' },
-  ];
+  const handleCreate = () => {
+    setSelectedEvent(null);
+    setIsModalOpen(true);
+  };
+
+  const handleEdit = (event) => {
+    setSelectedEvent(event);
+    setIsModalOpen(true);
+  };
+
+  const handleDelete = async (id) => {
+    if (window.confirm('Are you sure you want to delete this event?')) {
+      try {
+        await api.delete(`/events/${id}`);
+        fetchEvents();
+      } catch (err) {
+        alert(err.response?.data?.message || 'Failed to delete event');
+      }
+    }
+  };
 
   return (
     <div className="space-y-6 pb-12 w-full animate-fade-in">
@@ -36,7 +52,7 @@ const EventsAdmin = () => {
           <h1 className="text-2xl font-bold">Events Management</h1>
           <p className="text-sm text-text-muted mt-1">Create, manage and organize your events.</p>
         </div>
-        <button className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors text-sm">
+        <button onClick={handleCreate} className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors text-sm">
           <Plus size={16} /> Create Event
         </button>
       </div>
@@ -75,33 +91,29 @@ const EventsAdmin = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-glass-border">
-              {mockEvents.map((ev) => (
+              {events.map((ev) => (
                 <tr key={ev.event_id} className="hover:bg-glass-bg transition-colors">
                   <div className="p-4 flex items-center gap-3">
                      <div className={`w-8 h-8 rounded shrink-0 flex items-center justify-center text-white font-bold
-                         ${ev.category === 'Technology' ? 'bg-purple-500' : ev.category === 'Design' ? 'bg-pink-500' : ev.category === 'Exhibition' ? 'bg-[#f59e0b]' : 'bg-green-500'}
+                         ${ev.category === 'Workshop' ? 'bg-purple-500' : ev.category === 'Seminar' ? 'bg-pink-500' : ev.category === 'Hackathon' ? 'bg-[#f59e0b]' : 'bg-green-500'}
                      `}>
                         {ev.title.charAt(0)}
                      </div>
                      <span className="font-medium text-text-primary">{ev.title}</span>
                   </div>
-                  <td className="p-4 text-text-muted">{ev.date}</td>
+                  <td className="p-4 text-text-muted">{new Date(ev.date).toLocaleDateString()}</td>
                   <td className="p-4 text-text-muted">{ev.category}</td>
-                  <td className="p-4 text-text-primary">{ev.registrations}</td>
-                  <td className="p-4 text-text-primary">{ev.attendance}</td>
+                  <td className="p-4 text-text-primary">{ev.total_registered}</td>
+                  <td className="p-4 text-text-primary">-</td>
                   <td className="p-4">
-                    <span className={`px-2.5 py-1 text-xs rounded-lg font-medium 
-                      ${ev.status === 'Active' ? 'bg-green-500/20 text-green-400' : 
-                        ev.status === 'Upcoming' ? 'bg-blue-500/20 text-blue-400' : 
-                        'bg-gray-500/20 text-gray-400'}`}
-                    >
-                      {ev.status}
+                    <span className="px-2.5 py-1 text-xs rounded-lg font-medium bg-green-500/20 text-green-400">
+                      Active
                     </span>
                   </td>
                   <td className="p-4">
                     <div className="flex items-center gap-3">
-                       <button className="text-text-muted hover:text-purple-400 transition-colors" title="Edit"><Edit2 size={16} /></button>
-                       <button className="text-text-muted hover:text-danger transition-colors" title="Delete"><Trash2 size={16} /></button>
+                       <button onClick={() => handleEdit(ev)} className="text-text-muted hover:text-purple-400 transition-colors" title="Edit"><Edit2 size={16} /></button>
+                       <button onClick={() => handleDelete(ev.event_id)} className="text-text-muted hover:text-red-400 transition-colors" title="Delete"><Trash2 size={16} /></button>
                     </div>
                   </td>
                 </tr>
@@ -111,7 +123,7 @@ const EventsAdmin = () => {
         </div>
         
         <div className="flex justify-between items-center mt-6 text-sm text-text-muted">
-           <span>Showing 1 to 5 of 5 events</span>
+           <span>Showing 1 to {events.length} of {events.length} events</span>
            <div className="flex gap-1">
               <button className="w-8 h-8 flex items-center justify-center rounded border border-glass-border hover:bg-glass-bg">&lt;</button>
               <button className="w-8 h-8 flex items-center justify-center rounded bg-purple-600 text-white border border-purple-500">1</button>
@@ -119,6 +131,12 @@ const EventsAdmin = () => {
            </div>
         </div>
       </div>
+      <EventModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        event={selectedEvent} 
+        onSuccess={fetchEvents}
+      />
     </div>
   );
 };

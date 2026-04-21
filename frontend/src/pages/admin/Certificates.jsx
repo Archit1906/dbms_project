@@ -1,14 +1,50 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search, Plus, Download, Mail } from 'lucide-react';
+import api from '../../api/axios';
+import GenerateCertModal from '../../components/admin/GenerateCertModal';
 
 const Certificates = () => {
-  const [certs] = useState([
-    { id: 'CERT-2025-001', name: 'John Doe', event: 'Tech Fest 2025', date: 'Apr 25, 2025', status: 'Generated' },
-    { id: 'CERT-2025-002', name: 'Sarah Wilson', event: 'Design Workshop', date: 'Apr 25, 2025', status: 'Generated' },
-    { id: 'CERT-2025-003', name: 'Michael Brown', event: 'AI Conference 2025', date: 'Apr 23, 2025', status: 'Pending' },
-    { id: 'CERT-2025-004', name: 'Emily Davis', event: 'Robotics Expo', date: 'Apr 22, 2025', status: 'Generated' },
-    { id: 'CERT-2025-005', name: 'David Lee', event: 'Tech Fest 2025', date: 'Apr 21, 2025', status: 'Generated' },
-  ]);
+  const [certs, setCerts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    fetchCertificates();
+  }, []);
+
+  const fetchCertificates = async () => {
+    try {
+      const res = await api.get('/certificates');
+      setCerts(res.data.data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDownload = async (cert_id, student_name) => {
+    try {
+      const response = await api.get(`/certificates/${cert_id}/download`, {
+        responseType: 'blob' // Important for PDF
+      });
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `Certificate_${student_name.replace(/\s+/g, '_')}.pdf`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (err) {
+      alert('Failed to download certificate. ' + (err.response?.data?.message || ''));
+    }
+  };
+
+  const filteredCerts = certs.filter(c => 
+    c.student_name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    c.event_title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="space-y-6 pb-12 w-full animate-fade-in flex flex-col h-full">
@@ -27,6 +63,8 @@ const Certificates = () => {
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" size={16} />
                 <input 
                   type="text" 
+                  value={searchTerm}
+                  onChange={e => setSearchTerm(e.target.value)}
                   placeholder="Search certificates..." 
                   className="pl-9 pr-4 py-2 bg-bg-secondary border border-glass-border rounded-lg text-sm focus:outline-none focus:border-purple-500 transition-colors text-text-primary w-full sm:w-64"
                 />
@@ -38,7 +76,7 @@ const Certificates = () => {
                  <select className="bg-bg-secondary border border-glass-border px-3 py-2 text-sm rounded-lg text-text-primary outline-none">
                      <option>All Status</option>
                  </select>
-                 <button className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors text-sm">
+                 <button onClick={() => setIsModalOpen(true)} className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors text-sm">
                     <Plus size={16} /> Generate Certificate
                  </button>
               </div>
@@ -57,39 +95,34 @@ const Certificates = () => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-glass-border">
-                  {certs.map((c) => (
-                    <tr key={c.id} className="hover:bg-glass-bg transition-colors">
-                      <td className="p-4 text-text-primary">{c.id}</td>
-                      <td className="p-4 text-text-muted font-medium">{c.name}</td>
-                      <td className="p-4 text-text-muted">{c.event}</td>
-                      <td className="p-4 text-text-muted">{c.date}</td>
+                  {filteredCerts.map((c) => (
+                    <tr key={c.cert_id} className="hover:bg-glass-bg transition-colors">
+                      <td className="p-4 text-text-primary">#{c.cert_id}</td>
+                      <td className="p-4 text-text-muted font-medium">{c.student_name}</td>
+                      <td className="p-4 text-text-muted">{c.event_title}</td>
+                      <td className="p-4 text-text-muted">{new Date(c.issue_date).toLocaleDateString()}</td>
                       <td className="p-4">
-                        <span className={`px-2.5 py-1 text-xs rounded-lg font-medium border
-                          ${c.status === 'Generated' ? 'bg-green-500/10 text-green-400 border-green-500/20' : 'bg-[#f59e0b]/10 text-[#f59e0b] border-[#f59e0b]/20'}`}
-                        >
-                          {c.status}
+                        <span className="px-2.5 py-1 text-xs rounded-lg font-medium border bg-green-500/10 text-green-400 border-green-500/20">
+                          Generated
                         </span>
                       </td>
                       <td className="p-4">
                         <div className="flex items-center gap-3">
-                           <button className="text-text-muted hover:text-purple-400 transition-colors" title="Download"><Download size={16} /></button>
-                           <button className="text-text-muted hover:text-purple-400 transition-colors" title="Email"><Mail size={16} /></button>
+                           <button onClick={() => handleDownload(c.cert_id, c.student_name)} className="text-text-muted hover:text-purple-400 transition-colors" title="Download"><Download size={16} /></button>
+                           <button onClick={() => alert('Email dispatched (Mock)')} className="text-text-muted hover:text-purple-400 transition-colors" title="Email"><Mail size={16} /></button>
                         </div>
                       </td>
                     </tr>
                   ))}
+                  {filteredCerts.length === 0 && (
+                      <tr><td colSpan="6" className="text-center py-6 text-text-muted">No certificates found</td></tr>
+                  )}
                 </tbody>
               </table>
             </div>
 
             <div className="flex justify-between items-center mt-6 text-sm text-text-muted">
-               <span>Showing 1 to 5 of 10 certificates</span>
-               <div className="flex gap-1">
-                  <button className="w-8 h-8 flex items-center justify-center rounded border border-glass-border hover:bg-glass-bg">&lt;</button>
-                  <button className="w-8 h-8 flex items-center justify-center rounded bg-purple-600 text-white border border-purple-500">1</button>
-                  <button className="w-8 h-8 flex items-center justify-center rounded border border-glass-border hover:bg-glass-bg">2</button>
-                  <button className="w-8 h-8 flex items-center justify-center rounded border border-glass-border hover:bg-glass-bg">&gt;</button>
-               </div>
+               <span>Showing {filteredCerts.length} certificates</span>
             </div>
           </div>
 
@@ -129,6 +162,7 @@ const Certificates = () => {
              </div>
           </div>
       </div>
+      <GenerateCertModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onSuccess={fetchCertificates} />
     </div>
   );
 };

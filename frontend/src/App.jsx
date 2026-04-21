@@ -15,8 +15,13 @@ import ProtectedRoute from './routes/ProtectedRoute';
 
 // Student Pages
 import EventCatalog from './pages/student/EventCatalog';
+import EventDetails from './pages/student/EventDetails';
 import MyRegistrations from './pages/student/MyRegistrations';
 import CertificateVault from './pages/student/CertificateVault';
+import Favorites from './pages/student/Favorites';
+import StudentNotifications from './pages/student/Notifications';
+import Profile from './pages/student/Profile';
+import StudentSettings from './pages/student/Settings';
 
 // Admin Pages
 import Dashboard from './pages/admin/Dashboard';
@@ -71,8 +76,13 @@ const App = () => {
             
             {/* Student specific */}
             <Route path="/events/catalog" element={<EventCatalog />} />
+            <Route path="/events/:id" element={<EventDetails />} />
             <Route path="/student/registrations" element={<MyRegistrations />} />
             <Route path="/student/certificates" element={<CertificateVault />} />
+            <Route path="/student/favorites" element={<Favorites />} />
+            <Route path="/student/notifications" element={<StudentNotifications />} />
+            <Route path="/student/profile" element={<Profile />} />
+            <Route path="/student/settings" element={<StudentSettings />} />
 
             {/* Admin specific */}
             <Route path="/admin/dashboard" element={<Dashboard />} />
@@ -104,3 +114,5 @@ const DashboardRouter = () => {
 };
 
 export default App;
+
+// FORCE HMR

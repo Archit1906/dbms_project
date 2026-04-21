@@ -3,7 +3,8 @@ const {
   registerForEvent, 
   getMyRegistrations, 
   getEventParticipants, 
-  updateParticipationStatus 
+  updateParticipationStatus,
+  getAllRegistrations
 } = require('../controllers/registrationController');
 const authenticate = require('../middleware/authenticate');
 const authorize = require('../middleware/authorize');
@@ -17,5 +18,6 @@ router.get('/my', authenticate, getMyRegistrations);
 // Admin routes
 router.get('/event/:id', authenticate, authorize('Admin'), getEventParticipants);
 router.patch('/:id/status', authenticate, authorize('Admin'), updateParticipationStatus);
+router.get('/all', authenticate, authorize('Admin'), getAllRegistrations);
 
 module.exports = router;

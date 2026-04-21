@@ -231,3 +231,26 @@ exports.updateParticipationStatus = async (req, res, next) => {
     if (connection) connection.release();
   }
 };
+
+exports.getAllRegistrations = async (req, res, next) => {
+  try {
+    const [registrations] = await db.execute(`
+      SELECT r.reg_id, r.timestamp as registration_date, r.status,
+             s.student_id, s.name as attendee_name, u.email,
+             e.event_id, e.title as event_name, e.date as event_date
+      FROM Registrations r
+      JOIN Students s ON r.student_id = s.student_id
+      JOIN Users u ON s.user_id = u.user_id
+      JOIN Events e ON r.event_id = e.event_id
+      ORDER BY r.timestamp DESC
+    `);
+
+    res.status(200).json({
+      success: true,
+      data: registrations,
+      message: 'All registrations fetched successfully'
+    });
+  } catch (error) {
+    next(error);
+  }
+};

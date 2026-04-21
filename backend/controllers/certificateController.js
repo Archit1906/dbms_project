@@ -1,6 +1,7 @@
 const db = require('../config/db');
 const PDFDocument = require('pdfkit');
 const QRCode = require('qrcode');
+const crypto = require('crypto');
 
 exports.getMyCertificates = async (req, res, next) => {
   try {
@@ -159,6 +160,32 @@ exports.getAllCertificates = async (req, res, next) => {
       success: true,
       data: certificates,
       message: 'All certificates fetched successfully'
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.generateCertificate = async (req, res, next) => {
+  try {
+    const { reg_id } = req.body;
+    if (!reg_id) return res.status(400).json({success: false, message: 'reg_id is required'});
+
+    const [existing] = await db.execute('SELECT cert_id FROM Certificates WHERE reg_id = ?', [reg_id]);
+    if (existing.length > 0) {
+      return res.status(400).json({success: false, message: 'Certificate already exists for this registration'});
+    }
+
+    const hash = crypto.createHash('sha256').update(`${reg_id}-${Date.now()}-${Math.random()}`).digest('hex');
+    const [result] = await db.execute(
+      'INSERT INTO Certificates (reg_id, issue_date, unique_verification_hash) VALUES (?, NOW(), ?)',
+      [reg_id, hash]
+    );
+
+    res.status(201).json({
+      success: true,
+      data: { cert_id: result.insertId, hash },
+      message: 'Certificate generated successfully'
     });
   } catch (error) {
     next(error);

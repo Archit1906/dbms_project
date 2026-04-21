@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Download, FileText } from 'lucide-react';
+import { Calendar, MapPin, XCircle } from 'lucide-react';
 import api from '../../api/axios';
-import { jsPDF } from 'jspdf';
-import html2canvas from 'html2canvas';
 
 const MyRegistrations = () => {
   const [registrations, setRegistrations] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [downloading, setDownloading] = useState(null);
+  const [activeTab, setActiveTab] = useState('upcoming'); // upcoming, past, cancelled
 
   useEffect(() => {
     fetchRegistrations();
@@ -24,159 +22,104 @@ const MyRegistrations = () => {
     }
   };
 
-  const downloadCertificate = async (regId) => {
-    try {
-      setDownloading(regId);
-      // Fetch certificates array to match the regId to get the cert_id
-      const certRes = await api.get('/certificates/my');
-      const certificates = certRes.data.data;
-      const cert = certificates.find(c => c.reg_id === regId);
-      
-      if (!cert) {
-         alert('Certificate data not generated yet.');
-         setDownloading(null);
-         return;
-      }
-
-      // Fetch specific cert details for rendering
-      const detailRes = await api.get(`/certificates/${cert.cert_id}/download`);
-      const data = detailRes.data.data;
-
-      // Create a temporary hidden DOM element to render the certificate into
-      const certElement = document.createElement('div');
-      certElement.style.position = 'absolute';
-      certElement.style.left = '-9999px';
-      certElement.style.top = '-9999px';
-      certElement.style.width = '1000px';
-      certElement.style.height = '700px';
-      certElement.style.background = '#0A0F1E'; // Matches dark theme
-      certElement.style.color = '#F9FAFB';
-      certElement.style.fontFamily = 'Helvetica, sans-serif';
-      certElement.style.padding = '40px';
-      certElement.style.boxSizing = 'border-box';
-      
-      certElement.innerHTML = `
-         <div style="border: 4px solid #F59E0B; height: 100%; width: 100%; padding: 40px; box-sizing: border-box; text-align: center; position: relative;">
-            <div style="font-size: 24px; color: #3B82F6; font-weight: bold; letter-spacing: 2px; margin-bottom: 20px;">
-               THE INSTITUTE OF TECHNOLOGY
-            </div>
-            
-            <div style="font-size: 16px; color: #6B7280; margin-bottom: 60px;">
-               This is to certify that
-            </div>
-            
-            <div style="font-size: 48px; font-weight: bold; color: #F59E0B; margin-bottom: 20px; font-style: italic;">
-               ${data.student_name}
-            </div>
-            
-            <div style="font-size: 18px; color: #F9FAFB; margin-bottom: 60px;">
-               of Department ${data.department}
-            </div>
-            
-            <div style="font-size: 16px; color: #6B7280; margin-bottom: 20px;">
-               has successfully participated in the event
-            </div>
-            
-            <div style="font-size: 28px; font-weight: bold; color: #3B82F6; margin-bottom: 40px;">
-               ${data.event_title}
-            </div>
-            
-            <div style="font-size: 16px; color: #F9FAFB; margin-top: auto;">
-               Held on <strong>${new Date(data.event_date).toLocaleDateString()}</strong> at <strong>${data.venue}</strong>
-            </div>
-
-            <div style="position: absolute; bottom: 40px; left: 40px; text-align: left; font-size: 12px; color: #6B7280;">
-               Certificate ID: CERT-${data.cert_id}<br/>
-               Issued: ${new Date(data.issue_date).toLocaleString()}
-            </div>
-         </div>
-      `;
-      document.body.appendChild(certElement);
-
-      const canvas = await html2canvas(certElement, { scale: 2 });
-      const imgData = canvas.toDataURL('image/png');
-      
-      const pdf = new jsPDF('landscape', 'px', [1000, 700]);
-      pdf.addImage(imgData, 'PNG', 0, 0, 1000, 700);
-      pdf.save(`Certificate-${data.student_name.replace(' ', '_')}-${data.event_title.replace(/\s+/g, '_')}.pdf`);
-
-      document.body.removeChild(certElement);
-      
-    } catch (err) {
-      console.error(err);
-      alert('Failed to generate PDF');
-    } finally {
-      setDownloading(null);
-    }
+  const handleCancelRegistration = async (regId) => {
+     if(!window.confirm("Are you sure you want to cancel your registration?")) return;
+     try {
+        await api.patch(`/registrations/${regId}/status`, { status: 'Cancelled' });
+        fetchRegistrations();
+     } catch (err) {
+        alert("Failed to cancel registration.");
+     }
   };
 
-  if (loading) return <div className="flex justify-center p-12"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-accent-blue"></div></div>;
+  const getFilteredRegistrations = () => {
+      const now = new Date();
+      return registrations.filter(reg => {
+          if (activeTab === 'cancelled') return reg.status === 'Cancelled';
+          
+          const isPast = new Date(reg.date) < now;
+          if (activeTab === 'upcoming') return !isPast && reg.status !== 'Cancelled';
+          if (activeTab === 'past') return isPast && reg.status !== 'Cancelled';
+          return true;
+      });
+  };
+
+  const displayedRegs = getFilteredRegistrations();
+
+  if (loading) return <div className="flex justify-center p-12"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500"></div></div>;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 animate-fade-in pb-12">
       <div>
-        <h1 className="text-2xl font-bold">My Registrations</h1>
-        <p className="text-text-muted mt-1">Track your event attendances and download certificates.</p>
+        <h1 className="text-3xl font-bold text-white mb-2 ml-1">My Registrations</h1>
       </div>
 
-      <div className="glass-panel rounded-xl overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="bg-glass-bg border-b border-glass-border">
-                <th className="py-4 px-6 font-semibold text-text-muted">Event Title</th>
-                <th className="py-4 px-6 font-semibold text-text-muted">Date</th>
-                <th className="py-4 px-6 font-semibold text-text-muted">Status</th>
-                <th className="py-4 px-6 font-semibold text-text-muted text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-glass-border">
-              {registrations.length === 0 ? (
-                <tr>
-                   <td colSpan="4" className="py-8 text-center text-text-muted">You have no registrations yet.</td>
-                </tr>
-              ) : (
-                 registrations.map((reg) => {
-                    const isPresent = reg.participation_status === 'Present';
-                    
-                    return (
-                       <tr key={reg.reg_id} className="hover:bg-glass-bg/50 transition-colors">
-                          <td className="py-4 px-6 font-medium">{reg.title}</td>
-                          <td className="py-4 px-6 text-text-muted">{new Date(reg.date).toLocaleDateString()}</td>
-                          <td className="py-4 px-6">
-                             <span className={`px-3 py-1 text-xs font-semibold rounded-full border ${
-                                reg.participation_status === 'Present' 
-                                   ? 'bg-success/10 text-success border-success/20'
-                                   : reg.participation_status === 'Absent'
-                                   ? 'bg-danger/10 text-danger border-danger/20'
-                                   : 'bg-accent-blue/10 text-accent-blue border-accent-blue/20'
-                             }`}>
-                                {reg.participation_status}
-                             </span>
-                          </td>
-                          <td className="py-4 px-6 text-right">
-                             {isPresent ? (
-                                <button
-                                   onClick={() => downloadCertificate(reg.reg_id)}
-                                   disabled={downloading === reg.reg_id}
-                                   className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-accent-gold to-yellow-600 hover:from-yellow-600 hover:to-accent-gold text-white text-sm font-medium rounded-lg shadow-lg shadow-accent-gold/20 transition-all cursor-pointer"
-                                >
-                                   {downloading === reg.reg_id ? <span className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></span> : <Download size={16} />}
-                                   Download Certificate
-                                </button>
-                             ) : (
-                                <span className="inline-flex items-center gap-2 px-4 py-2 text-text-muted text-sm border border-glass-border rounded-lg bg-glass-bg cursor-not-allowed">
-                                   <FileText size={16} /> Locked
-                                </span>
-                             )}
-                          </td>
-                       </tr>
-                    );
-                 })
-              )}
-            </tbody>
-          </table>
-        </div>
+      <div className="flex space-x-6 border-b border-glass-border">
+         {['upcoming', 'past', 'cancelled'].map(tab => (
+            <button 
+               key={tab}
+               onClick={() => setActiveTab(tab)}
+               className={`pb-3 font-medium text-sm transition-all border-b-2 capitalize ${activeTab === tab ? 'border-purple-500 text-purple-400 drop-shadow-[0_0_10px_rgba(168,85,247,0.5)]' : 'border-transparent text-text-muted hover:text-white'}`}
+            >
+               {tab}
+            </button>
+         ))}
+      </div>
+
+      <div className="flex flex-col gap-4">
+         {displayedRegs.length === 0 ? (
+            <div className="glass-panel p-8 rounded-xl text-center text-text-muted">
+               No {activeTab} registrations found.
+            </div>
+         ) : (
+            displayedRegs.map(reg => (
+               <div key={reg.reg_id} className="glass-panel p-4 rounded-xl border border-glass-border flex flex-col md:flex-row gap-6 items-start md:items-center group hover:bg-glass-bg transition-colors">
+                  <div className="w-full md:w-48 h-32 rounded-lg overflow-hidden shrink-0 border border-glass-border">
+                     <img 
+                        src={`https://source.unsplash.com/600x400/?${reg.title?.includes('Workshop') ? 'technology' : 'event'}`}
+                        onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=600&auto=format&fit=crop'; }}
+                        alt="Event Thumbnail"
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                     />
+                  </div>
+                  
+                  <div className="flex-1">
+                     <h3 className="text-xl font-bold text-white mb-2">{reg.title}</h3>
+                     <div className="flex flex-col gap-1.5 text-sm">
+                        <div className="flex items-center text-slate-300">
+                           <Calendar size={14} className="text-text-muted mr-2" />
+                           {new Date(reg.date).toLocaleDateString()} • {new Date(reg.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </div>
+                        <div className="flex items-center text-slate-300">
+                           <MapPin size={14} className="text-text-muted mr-2" />
+                           {reg.venue}
+                        </div>
+                     </div>
+                  </div>
+
+                  <div className="flex flex-col items-start md:items-end gap-3 shrink-0">
+                     <span className={`px-4 py-1.5 text-xs font-bold uppercase tracking-wider rounded-full border ${
+                         activeTab === 'upcoming' 
+                            ? 'bg-purple-500/10 text-purple-400 border-purple-500/20'
+                            : activeTab === 'cancelled'
+                            ? 'bg-red-500/10 text-red-400 border-red-500/20'
+                            : 'bg-green-500/10 text-green-400 border-green-500/20'
+                     }`}>
+                        {activeTab}
+                     </span>
+                     
+                     {activeTab === 'upcoming' && (
+                        <div className="mt-4 border-t border-glass-border pt-4 w-full md:text-right">
+                           <div className="text-xs text-text-muted mb-2 text-left md:text-right">Can't make it?<br/>Cancel your registration before the deadline.</div>
+                           <button onClick={() => handleCancelRegistration(reg.reg_id)} className="flex items-center text-red-400 hover:text-red-300 transition-colors text-sm font-medium">
+                              <XCircle size={16} className="mr-1.5" /> Cancel Registration
+                           </button>
+                        </div>
+                     )}
+                  </div>
+               </div>
+            ))
+         )}
       </div>
     </div>
   );

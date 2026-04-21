@@ -3,7 +3,8 @@ const {
   getMyCertificates, 
   downloadCertificatePDF, 
   verifyCertificate,
-  getAllCertificates 
+  getAllCertificates,
+  generateCertificate
 } = require('../controllers/certificateController');
 const authenticate = require('../middleware/authenticate');
 const authorize = require('../middleware/authorize');
@@ -21,5 +22,6 @@ router.get('/verify/:hash', verifyCertificate);
 
 // Admin route
 router.get('/', authenticate, authorize('Admin'), getAllCertificates);
+router.post('/generate', authenticate, authorize('Admin'), generateCertificate);
 
 module.exports = router;
