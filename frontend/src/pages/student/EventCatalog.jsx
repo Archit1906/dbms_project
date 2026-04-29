@@ -58,7 +58,7 @@ const EventCatalog = () => {
   // In a real scenario, this would use user department metadata matched to event categories
   const displayedEvents = events.filter(e => {
      if (searchTerm && !e.title.toLowerCase().includes(searchTerm.toLowerCase())) return false;
-     if (activeTab === 'personalized' && e.category !== 'Workshop') return false; 
+     if (activeTab === 'personalized' && e.category !== 'Technical') return false; 
      return true;
   });
 

@@ -33,7 +33,7 @@ const EventCard = ({ event, onRegister }) => {
       <div className="relative h-48 w-full overflow-hidden">
          {/* Background Image - Mocked based on category */}
          <img 
-            src={`https://source.unsplash.com/600x400/?${event.category === 'Workshop' ? 'technology,ai' : event.category === 'Seminar' ? 'cybersecurity' : 'event'}`} 
+            src={`https://source.unsplash.com/600x400/?${event.category === 'Technical' ? 'technology,ai' : event.category === 'Cultural' ? 'music,art' : 'event'}`} 
             onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=600&auto=format&fit=crop'; }}
             alt={event.title} 
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"

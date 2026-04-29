@@ -95,7 +95,7 @@ const EventsAdmin = () => {
                 <tr key={ev.event_id} className="hover:bg-glass-bg transition-colors">
                   <div className="p-4 flex items-center gap-3">
                      <div className={`w-8 h-8 rounded shrink-0 flex items-center justify-center text-white font-bold
-                         ${ev.category === 'Workshop' ? 'bg-purple-500' : ev.category === 'Seminar' ? 'bg-pink-500' : ev.category === 'Hackathon' ? 'bg-[#f59e0b]' : 'bg-green-500'}
+                         ${ev.category === 'Technical' ? 'bg-purple-500' : ev.category === 'Cultural' ? 'bg-pink-500' : ev.category === 'Sports' ? 'bg-[#f59e0b]' : 'bg-green-500'}
                      `}>
                         {ev.title.charAt(0)}
                      </div>

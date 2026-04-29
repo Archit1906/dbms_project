@@ -9,7 +9,7 @@ const EventModal = ({ isOpen, onClose, event, onSuccess }) => {
     date: '',
     venue: '',
     max_participants: '',
-    category: 'Workshop'
+    category: 'Technical'
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -22,7 +22,7 @@ const EventModal = ({ isOpen, onClose, event, onSuccess }) => {
         date: event.date ? new Date(event.date).toISOString().slice(0, 16) : '',
         venue: event.venue || '',
         max_participants: event.max_participants || '',
-        category: event.category || 'Workshop'
+        category: event.category || 'Technical'
       });
     } else {
       setFormData({
@@ -31,7 +31,7 @@ const EventModal = ({ isOpen, onClose, event, onSuccess }) => {
         date: '',
         venue: '',
         max_participants: '',
-        category: 'Workshop'
+        category: 'Technical'
       });
     }
   }, [event]);
@@ -93,9 +93,7 @@ const EventModal = ({ isOpen, onClose, event, onSuccess }) => {
                 <div>
                   <label className="block text-sm font-medium text-text-muted mb-1">Category</label>
                   <select required name="category" value={formData.category} onChange={handleChange} className="w-full bg-bg-secondary border border-glass-border rounded-lg px-4 py-2 text-text-primary outline-none focus:border-purple-500 transition-colors">
-                      <option value="Workshop">Workshop</option>
-                      <option value="Seminar">Seminar</option>
-                      <option value="Hackathon">Hackathon</option>
+                      <option value="Technical">Technical</option>
                       <option value="Cultural">Cultural</option>
                       <option value="Sports">Sports</option>
                       <option value="Other">Other</option>

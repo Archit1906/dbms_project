@@ -144,8 +144,8 @@ const EventDetails = () => {
           <div className="flex-1 min-w-0">
              <div className="w-full h-[300px] lg:h-[400px] rounded-xl overflow-hidden mb-8 border border-glass-border relative">
                 <img 
-                   src={`https://source.unsplash.com/1200x600/?${event.category === 'Workshop' ? 'technology,ai' : event.category === 'Seminar' ? 'cybersecurity' : 'event'}`} 
-                   onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=1200&auto=format&fit=crop'; }}
+                   src={`https://source.unsplash.com/1200x600/?${event.category === 'Technical' ? 'technology,ai' : event.category === 'Cultural' ? 'music,art' : 'event'}`} 
+                   onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200&auto=format&fit=crop'; }}
                    alt={event.title} 
                    className="w-full h-full object-cover"
                 />
